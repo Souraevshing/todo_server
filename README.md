@@ -25,7 +25,7 @@ server/
 │   ├── app.ts          # Express app setup (middleware, health checks, error handler)
 │   └── index.ts        # Entry point – starts the server after connecting to MongoDB
 |── types               # types
-|── env.d.ts            # global level types file for .env
+|── index.d.ts            # global level types file for .env
 ├── package.json
 ├── tsconfig.json
 └── .env.example        # Sample environment configuration

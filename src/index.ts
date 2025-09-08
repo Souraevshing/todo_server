@@ -11,10 +11,10 @@ async function run(): Promise<void> {
     try {
         await connectDB();
         app.listen(PORT,() => {
-            console.info(`Server listening on port ${PORT}`);
+            console.info(`✅ Server listening on port ${PORT}`);
         })
     } catch (error) {
-        console.error(error);
+        console.error(`❌ Connection to server failed`,error);
         process.exit(1);
     }
 }
