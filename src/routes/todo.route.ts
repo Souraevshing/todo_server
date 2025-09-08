@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import {
-    createTodo,
-    getTodos,
-    getTodoById,
-    updateTodo,
-    deleteTodoById
+  createTodo,
+  getTodos,
+  getTodoById,
+  updateTodo,
+  deleteTodoById,
 } from '../controllers/todo.controller';
 
 const router = Router();

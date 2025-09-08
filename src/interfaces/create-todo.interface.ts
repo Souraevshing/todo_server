@@ -1,5 +1,5 @@
 export interface ICreateTodo {
-    title: string;
-    description?: string;
-    completed?: boolean;
+  title: string;
+  description?: string;
+  completed?: boolean;
 }

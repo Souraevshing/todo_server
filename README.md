@@ -48,20 +48,20 @@ server/
 
 2. **Configure the environment.**
 
-   Copy the provided `.env.example` to `.env` and adjust the `PORT` and `MONGO_DB_URI` variables to match your local setup.  Ensure you have a running MongoDB instance.
+   Copy the provided `.env.example` to `.env` and adjust the `PORT` and `MONGO_DB_URI` variables to match your local setup. Ensure you have a running MongoDB instance.
 
    ```bash
    cp .env.example .env
    # Edit .env as needed
    ```
 
-3. **Run the server in development mode.**  `nodemon` will automatically restart the server when files change.
+3. **Run the server in development mode.** `nodemon` will automatically restart the server when files change.
 
    ```bash
    npm run dev
    ```
 
-4. **Build and run in production mode.**  This compiles TypeScript to JavaScript in the `dist` folder and starts the server.
+4. **Build and run in production mode.** This compiles TypeScript to JavaScript in the `dist` folder and starts the server.
 
    ```bash
    npm run build
@@ -69,16 +69,15 @@ server/
    ```
 
 5. **API endpoints.**
-
-    - `GET  /api/v1/todos` – List all todos
-    - `POST /api/v1/todos` – Create a new todo (expects `title`, optional `description` and `completed` fields in the request body)
-    - `GET  /api/v1/todos/:id` – Retrieve a single todo by its ID
-    - `PUT  /api/v1/todos/:id` – Update an existing todo (send only the fields to update)
-    - `DELETE /api/v1/todos/:id` – Remove a todo
+   - `GET  /api/v1/todos` – List all todos
+   - `POST /api/v1/todos` – Create a new todo (expects `title`, optional `description` and `completed` fields in the request body)
+   - `GET  /api/v1/todos/:id` – Retrieve a single todo by its ID
+   - `PUT  /api/v1/todos/:id` – Update an existing todo (send only the fields to update)
+   - `DELETE /api/v1/todos/:id` – Remove a todo
 
 ## Extending the API
 
-You can extend this project by adding new models, services, controllers and routes.  For example, to add a "User" resource:
+You can extend this project by adding new models, services, controllers and routes. For example, to add a "User" resource:
 
 1. Create `src/models/user.model.ts` defining the schema and interface.
 2. Implement business logic in `src/services/user.service.ts`.

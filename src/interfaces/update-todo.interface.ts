@@ -1,8 +1,8 @@
-import {UpdateQuery} from "mongoose";
+import { UpdateQuery } from 'mongoose';
 
-import {ITodo} from "../models/todo.model";
+import { ITodo } from '../models/todo.model';
 
 export interface IUpdateTodo {
-    id: string;
-    updateFields: UpdateQuery<ITodo>
+  id: string;
+  updateFields: UpdateQuery<ITodo>;
 }
