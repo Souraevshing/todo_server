@@ -1,5 +1,22 @@
-import express from 'express'
+import dotenv from "dotenv"
 
-const port = process.env.PORT || 5000;
+import connectDB from "./config/database";
+import app from "./app";
 
-const app = express();
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
+
+async function run(): Promise<void> {
+    try {
+        await connectDB();
+        app.listen(PORT,() => {
+            console.info(`Server listening on port ${PORT}`);
+        })
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+}
+
+run();
