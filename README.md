@@ -25,10 +25,16 @@ server/
 │   ├── app.ts          # Express app setup (middleware, health checks, error handler)
 │   └── index.ts        # Entry point – starts the server after connecting to MongoDB
 |── types               # types
-|── index.d.ts            # global level types file for .env
+|   └── env
+|       └── index.d.ts
 ├── package.json
 ├── tsconfig.json
+├── LICENSE
+├── .prettierrc
+├── .prettierignore
+├── .editorconfig
 └── .env.example        # Sample environment configuration
+
 ```
 
 ## Getting started
@@ -64,11 +70,11 @@ server/
 
 5. **API endpoints.**
 
-    - `GET  /api/todos` – List all todos
-    - `POST /api/todos` – Create a new todo (expects `title`, optional `description` and `completed` fields in the request body)
-    - `GET  /api/todos/:id` – Retrieve a single todo by its ID
-    - `PUT  /api/todos/:id` – Update an existing todo (send only the fields to update)
-    - `DELETE /api/todos/:id` – Remove a todo
+    - `GET  /api/v1/todos` – List all todos
+    - `POST /api/v1/todos` – Create a new todo (expects `title`, optional `description` and `completed` fields in the request body)
+    - `GET  /api/v1/todos/:id` – Retrieve a single todo by its ID
+    - `PUT  /api/v1/todos/:id` – Update an existing todo (send only the fields to update)
+    - `DELETE /api/v1/todos/:id` – Remove a todo
 
 ## Extending the API
 
