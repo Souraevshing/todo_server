@@ -1,3 +1,12 @@
-# Ignore artifacts:
+# deps & builds
+node_modules
+dist
 build
 coverage
+
+# env & logs
+*.log
+.env
+.env.*
+logs
+.tmp
