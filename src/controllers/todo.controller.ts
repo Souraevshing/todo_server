@@ -24,4 +24,63 @@ export async function createTodo(req: Request, res: Response, next: NextFunction
 /**
  * Get all Todos.
  */
-export async function getTodos(_req: Request, res: Response, next: NextFunction): Promise<void> {}
+export async function getTodos(_req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const existingTodo = await todoService.getTodos();
+        res.status(200).json(existingTodo);
+    } catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
+/**
+ * Get a single Todo by ID.
+ */
+export async function getTodoById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const existingTodo = await todoService.getTodoById(req.params.id);
+        if(!existingTodo) {
+            res.status(404).json({message: "Todo does not exist", status: "404"})
+            return;
+        }
+        res.status(200).json(existingTodo);
+    } catch(err) {
+        console.error(err);
+        next(err)
+    }
+}
+
+/**
+ * Update a Todo.
+ */
+export async function updateTodo(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const updatedTodo = await todoService.updateTodo(req.params.id, req.body);
+        if(!updatedTodo) {
+            res.status(404).json({message: "Todo does not exist", status: "404"});
+            return;
+        }
+        res.status(200).json(updatedTodo);
+    } catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
+/**
+ * Delete a Todo.
+ */
+export async function deleteTodoById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const deletedTodo = await todoService.deleteTodoById(req.params.id);
+        if(!deletedTodo) {
+            res.status(404).json({message: "Todo does not exist", status: "404"});
+            return;
+        }
+        res.status(200).json({message: "Todo deleted successfully", status: "200"});
+    } catch(err) {
+        console.error(err);
+        next(err);
+    }
+}

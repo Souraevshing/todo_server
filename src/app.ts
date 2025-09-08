@@ -1,15 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 
-// import todoRoutes from "./routes/todo.route"
+import todoRoutes from "./routes/todo.route";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({origin:"*"}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/api/v1/todos", todoRoutes);
+app.use("/api/v1/todos", todoRoutes);
 app.get("/api/v1/health", (_req: Request, res: Response) => {
    res.status(200).json({message: "Server is up and healthy", status: "OK"});
 });

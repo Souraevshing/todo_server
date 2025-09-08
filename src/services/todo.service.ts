@@ -37,10 +37,11 @@ export async function getTodoById(id: string): Promise<ITodo|null> {
  * fields are ignored.
  *
  * @returns The updated Todo document if it exists, or null.
+ * @param id
  * @param payload
  */
-export async function updateTodo(payload: IUpdateTodo): Promise<ITodo | null> {
-    return Todo.findByIdAndUpdate(payload.id, payload.updateFields, {new: true, runValidators: true});
+export async function updateTodo(id: string, payload: IUpdateTodo): Promise<ITodo | null> {
+    return Todo.findByIdAndUpdate(id, payload.updateFields, {new: true, runValidators: true});
 }
 
 /**
