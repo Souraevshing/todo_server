@@ -19,4 +19,20 @@ const todoSchema = new Schema<ITodo>(
     }
 )
 
+const normalize = (s: string) => s.trim().replace(/\s+/g, ' ').toLowerCase();
+todoSchema.add({
+    title: { type: String, required: true, index: true, unique: true },
+});
+
+todoSchema.pre('save', function (next) {
+    this.title = normalize(this.title);
+    next();
+});
+
+todoSchema.pre('findOneAndUpdate', function (next) {
+    const update: any = this.getUpdate() || {};
+    if (update.title) update.title = normalize(update.title);
+    next();
+});
+
 export const Todo = model<ITodo>('Todo', todoSchema);

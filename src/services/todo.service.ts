@@ -9,6 +9,7 @@ import {IUpdateTodo} from "../interfaces/update-todo.interface";
  * @returns The created Todo document.
  */
 export async function createTodo(payload: ICreateTodo) {
+
     const newTodo = new Todo({...payload});
     return await newTodo.save();
 }
