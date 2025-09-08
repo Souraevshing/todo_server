@@ -21,7 +21,7 @@ server/
 │   ├── routes/         # Route definitions grouped by feature
 │   │   └── todo.routes.ts
 │   ├── config/         # Centralised configuration (e.g. database connection)
-│   │   └── database.ts
+│   │   └── database.config.ts
 │   ├── app.ts          # Express app setup (middleware, health checks, error handler)
 │   └── index.ts        # Entry point – starts the server after connecting to MongoDB
 |── types               # types

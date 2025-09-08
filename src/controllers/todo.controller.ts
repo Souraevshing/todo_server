@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 
 import * as todoService from '../services/todo.service'
+import {ICreateTodo} from "../interfaces/create-todo.interface";
+import {IUpdateTodo} from "../interfaces/update-todo.interface";
 
 /**
  * Controller functions handle incoming HTTP requests and call the service
@@ -13,10 +15,14 @@ import * as todoService from '../services/todo.service'
  */
 export async function createTodo(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const newTodo = await todoService.createTodo(req.body);
+        const payload: ICreateTodo = req.body;
+        const newTodo = await todoService.createTodo(payload);
         res.status(201).json(newTodo);
-    } catch(err) {
-        console.error(err);
+    } catch(err: any) {
+        if(err?.statusCode === 409) {
+            res.status(409).json({message: err.message, statusCode: "409"});
+            return;
+        }
         next(err)
     }
 }
@@ -28,8 +34,7 @@ export async function getTodos(_req: Request, res: Response, next: NextFunction)
     try {
         const existingTodo = await todoService.getTodos();
         res.status(200).json(existingTodo);
-    } catch(err) {
-        console.error(err);
+    } catch(err: any) {
         next(err);
     }
 }
@@ -41,12 +46,11 @@ export async function getTodoById(req: Request, res: Response, next: NextFunctio
     try {
         const existingTodo = await todoService.getTodoById(req.params.id);
         if(!existingTodo) {
-            res.status(404).json({message: "Todo does not exist", status: "404"})
+            res.status(404).json({message: "Todo does not exist", statusCode: "404"})
             return;
         }
         res.status(200).json(existingTodo);
-    } catch(err) {
-        console.error(err);
+    } catch(err: any) {
         next(err)
     }
 }
@@ -56,14 +60,21 @@ export async function getTodoById(req: Request, res: Response, next: NextFunctio
  */
 export async function updateTodo(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const updatedTodo = await todoService.updateTodo(req.params.id, req.body);
+        const payload: IUpdateTodo = {
+            id: req.params.id,
+            updateFields: req.body,
+        }
+        const updatedTodo = await todoService.updateTodo(payload);
         if(!updatedTodo) {
-            res.status(404).json({message: "Todo does not exist", status: "404"});
+            res.status(404).json({message: "Todo does not exist", statusCode: "404"});
             return;
         }
         res.status(200).json(updatedTodo);
-    } catch(err) {
-        console.error(err);
+    } catch(err: any) {
+        if(err?.statusCode === 409) {
+            res.status(409).json({message: err.message, statusCode: "409"});
+            return;
+        }
         next(err);
     }
 }
@@ -75,12 +86,11 @@ export async function deleteTodoById(req: Request, res: Response, next: NextFunc
     try {
         const deletedTodo = await todoService.deleteTodoById(req.params.id);
         if(!deletedTodo) {
-            res.status(404).json({message: "Todo does not exist", status: "404"});
+            res.status(404).json({message: "Todo does not exist", statusCode: "404"});
             return;
         }
-        res.status(200).json({message: "Todo deleted successfully", status: "200"});
-    } catch(err) {
-        console.error(err);
+        res.status(200).json({message: "Todo deleted successfully", statusCode: "200"});
+    } catch(err: any) {
         next(err);
     }
 }
