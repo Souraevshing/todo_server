@@ -23,11 +23,6 @@ const todoSchema = new Schema<ITodo>(
 
 const normalize = (s: string) => s.trim().replace(/\s+/g, ' ').toLowerCase();
 
-todoSchema.pre('save', function (next) {
-  this.title = normalize(this.title);
-  next();
-});
-
 todoSchema.pre('validate', function (next) {
   const doc = this as HydratedDocument<ITodo>;
   if (doc.title) {
@@ -52,6 +47,6 @@ todoSchema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
-todoSchema.index({ titleKey: 1 }, { unique: true });
+todoSchema.index({ titleKey: 1 });
 
 export const Todo = model<ITodo>('Todo', todoSchema);

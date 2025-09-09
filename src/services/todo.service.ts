@@ -1,8 +1,9 @@
+import {isValidObjectId} from "mongoose";
+
 import { Todo, ITodo } from '../models/todo.model';
 import { ICreateTodo } from '../interfaces/create-todo.interface';
 import { IUpdateTodo } from '../interfaces/update-todo.interface';
 import { normalizeTitleUtil } from '../utils/normalize-title.util';
-import { existsByTitle } from '../utils/exists-by-title.util';
 
 /**
  * Create a new Todo document.
@@ -12,11 +13,6 @@ import { existsByTitle } from '../utils/exists-by-title.util';
  */
 export async function createTodo(payload: ICreateTodo) {
   const normalizedTitle = normalizeTitleUtil(payload.title);
-  if (await existsByTitle(normalizedTitle)) {
-    const err: any = new Error('A todo with the same title already exists.');
-    err.statusCode = 409;
-    throw err;
-  }
   const newTodo = new Todo({ ...payload, title: normalizedTitle });
   return await newTodo.save();
 }
@@ -51,13 +47,7 @@ export async function updateTodo(payload: IUpdateTodo): Promise<ITodo | null> {
   const { id, updateFields } = payload;
   if (updateFields && (updateFields as any).title) {
     const title = (updateFields as any).title as string;
-    const normalizedTitle = normalizeTitleUtil(title);
-    if (await existsByTitle(normalizedTitle, id)) {
-      const err: any = new Error('A todo with the same title already exists.');
-      err.statusCode = 409;
-      throw err;
-    }
-    (updateFields as any).title = normalizedTitle;
+    (updateFields as any).title = normalizeTitleUtil(title);
   }
   return Todo.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
 }
@@ -70,4 +60,33 @@ export async function updateTodo(payload: IUpdateTodo): Promise<ITodo | null> {
  */
 export async function deleteTodoById(id: string): Promise<ITodo | null> {
   return Todo.findByIdAndDelete(id);
+}
+
+/**
+ * Idempotently set the `completed` flag on a Todo.
+ * Defaults to true if not provided.
+ */
+export async function markTodoComplete(
+    id: string,
+    completed: boolean = true
+): Promise<ITodo> {
+    if (!isValidObjectId(id)) {
+        const err = new Error("Invalid todo id");
+        (err as any).status = 400;
+        throw err;
+    }
+
+    const updated = await Todo.findByIdAndUpdate(
+        id,
+        { $set: { completed } },
+        { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+        const err = new Error("Todo not found");
+        (err as any).status = 404;
+        throw err;
+    }
+
+    return updated;
 }

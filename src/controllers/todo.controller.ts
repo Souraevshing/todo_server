@@ -93,8 +93,28 @@ export async function deleteTodoById(
       res.status(404).json({ message: 'Todo does not exist', statusCode: '404' });
       return;
     }
-    res.status(200).json({ message: 'Todo deleted successfully', statusCode: '200' });
+    res.status(204).end();
   } catch (err: any) {
     next(err);
   }
+}
+
+/**
+ * Mark todo complete
+ */
+export async function markTodoComplete(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const { id } = req.params;
+        const completed =
+            typeof req.body?.completed === "boolean" ? req.body.completed : true;
+
+        const todo = await todoService.markTodoComplete(id, completed);
+        res.status(200).json(todo);
+    } catch (err) {
+        next(err);
+    }
 }
