@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MAX_RETRIES = 5;
+const MAX_RETRIES = 10;
 const RETRY_DELAY_MS = 3000;
 
 const connectDB = async (): Promise<void> => {
