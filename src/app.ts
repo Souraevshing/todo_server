@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import morgan from 'morgan'
 
 import todoRoutes from './routes/todo.route';
 
@@ -8,6 +9,7 @@ const app = express();
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('short'))
 
 app.use('/api/v1/todos', todoRoutes);
 app.get('/api/v1/health', (_req: Request, res: Response) => {
