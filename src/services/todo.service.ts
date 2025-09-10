@@ -1,4 +1,4 @@
-import {isValidObjectId} from "mongoose";
+import { isValidObjectId } from 'mongoose';
 
 import { Todo, ITodo } from '../models/todo.model';
 import { ICreateTodo } from '../interfaces/create-todo.interface';
@@ -66,29 +66,26 @@ export async function deleteTodoById(id: string): Promise<ITodo | null> {
  * Idempotently set the `completed` flag on a Todo.
  * Defaults to true if not provided.
  */
-export async function markTodoComplete(
-    id: string,
-    completed: boolean = true
-): Promise<ITodo> {
-    const {isValidObjectId} = await import('mongoose');
+export async function markTodoComplete(id: string, completed: boolean = true): Promise<ITodo> {
+  const { isValidObjectId } = await import('mongoose');
 
-    if (!isValidObjectId(id)) {
-        const err = new Error("Invalid todo id");
-        (err as any).status = 400;
-        throw err;
-    }
+  if (!isValidObjectId(id)) {
+    const err = new Error('Invalid todo id');
+    (err as any).status = 400;
+    throw err;
+  }
 
-    const updated = await Todo.findByIdAndUpdate(
-        id,
-        { $set: { completed } },
-        { new: true, runValidators: true }
-    );
+  const updated = await Todo.findByIdAndUpdate(
+    id,
+    { $set: { completed } },
+    { new: true, runValidators: true },
+  );
 
-    if (!updated) {
-        const err = new Error("Todo not found");
-        (err as any).status = 404;
-        throw err;
-    }
+  if (!updated) {
+    const err = new Error('Todo not found');
+    (err as any).status = 404;
+    throw err;
+  }
 
-    return updated;
+  return updated;
 }

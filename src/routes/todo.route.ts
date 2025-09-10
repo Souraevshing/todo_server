@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response, Router} from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 
 import {
   createTodo,
@@ -6,21 +6,14 @@ import {
   getTodoById,
   updateTodo,
   deleteTodoById,
-    markTodoComplete
+  markTodoComplete,
 } from '../controllers/todo.controller';
 
-function ensureCompletedBoolean(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
-    if (
-        typeof req.body?.completed !== "undefined" &&
-        typeof req.body.completed !== "boolean"
-    ) {
-        return res.status(422).json({ message: "`completed` must be boolean" });
-    }
-    next();
+function ensureCompletedBoolean(req: Request, res: Response, next: NextFunction) {
+  if (typeof req.body?.completed !== 'undefined' && typeof req.body.completed !== 'boolean') {
+    return res.status(422).json({ message: '`completed` must be boolean' });
+  }
+  next();
 }
 
 const router = Router();
