@@ -93,7 +93,7 @@ export async function deleteTodoById(
       res.status(404).json({ message: 'Todo does not exist', statusCode: '404' });
       return;
     }
-    res.status(204).end();
+    res.status(200).json({ok: true, id: deletedTodo._id});
   } catch (err: any) {
     next(err);
   }

@@ -70,6 +70,8 @@ export async function markTodoComplete(
     id: string,
     completed: boolean = true
 ): Promise<ITodo> {
+    const {isValidObjectId} = await import('mongoose');
+
     if (!isValidObjectId(id)) {
         const err = new Error("Invalid todo id");
         (err as any).status = 400;
